@@ -1,0 +1,8 @@
+Flask
+pandas
+vnstock
+matplotlib
+plotly
+weasyprint
+numpy
+prettytable
