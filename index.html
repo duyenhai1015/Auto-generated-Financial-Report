@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Báo Cáo Doanh Nghiệp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"] {
+            padding: 8px;
+            margin: 5px;
+            width: 250px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Tạo Báo Cáo Doanh Nghiệp</h2>
+
+    <form id="reportForm" action="/report" method="POST">
+        <label for="company_code">Mã công ty:</label>
+        <input type="text" id="company_code" name="company_code" required><br><br>
+    
+        <label for="report_date">Chọn ngày báo cáo (xin vui lòng chọn ngày có giao dịch và đúng định dạng):</label>
+        <input type="date" id="report_date" name="report_date" required><br><br>
+    
+        <button type="submit" formaction="/download_report">Tải Báo Cáo PDF</button>
+    </form>
+</body>
+</html>

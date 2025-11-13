@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Doanh Nghiệp - {{ company_code if company_code else "Không có dữ liệu" }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0.1;
+        }
+        @font-face {
+            font-family: 'Roboto';
+            src: url('https://fonts.googleapis.com/css?family=Roboto')
+                   
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #083f42;
+        }
+        .header .subtitle {
+            font-size: 20px;
+            color: #555;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #d6e0ea;
+            padding: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #083f42;
+        }
+        table {
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #c0c8cc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #d6e0ea;
+            color: rgb(13, 53, 47);
+            font-weight: bold;
+        }
+        .financial-table table {
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0; /* Đảm bảo không có khoảng cách giữa các ô */
+        }
+
+        .financial-table th, .financial-table td {
+            padding: 8px;
+            text-align: right;
+            border: 1px solid #ddd;
+        }
+
+        /* Màu nền cho tiêu đề */
+        .financial-table th {
+            background-color: #d6e0ea;
+            color: rgb(17, 58, 42);
+            text-align: left;
+        }
+
+        /* Áp dụng màu xen kẽ cho hàng */
+        .financial-table tbody tr:nth-child(odd) {
+    background-color: #f2f2f2; /* Xám nhạt */
+        }
+
+        .financial-table tbody tr:nth-child(even) {
+            background-color: white;
+        }
+
+       /* Áp dụng màu xen kẽ cho cột đầu tiên */
+        .financial-table tbody tr:nth-child(odd) td:first-child {
+            background-color: #d6e0ea; /* Xanh nhạt */
+        }
+
+       .financial-table tbody tr:nth-child(even) td:first-child {
+            background-color: white;
+        }
+
+       /* Tô đậm hàng tiêu đề */
+       .financial-table thead tr {
+            background-color: #143f3d;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Tạo khoảng cách giữa các dòng */
+        .financial-table tbody tr {
+            border-bottom: 2px solid rgb(234, 222, 222); /* Thêm khoảng cách giữa các dòng */
+        }
+        .financial-analysis {
+        background-color: #f9f9f9; /* Màu nền nhẹ để nổi bật văn bản */
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #f7ecec; /* Đường viền mờ */
+        }
+        .financial-analysis pre {
+        font-size: 15px;
+        line-height: 1.15;
+        color: #0a1d21; /* Màu chữ đậm cho nội dung */
+        font-family: 'Roboto', sans-serif;
+        white-space: pre-wrap; /* Đảm bảo text dài không bị cắt */
+        }
+
+        .center {
+            text-align: center;
+        }
+        .info-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .info-box {
+            width: 48%;
+        }
+
+        /* Bổ sung để hiển thị 2 biểu đồ song song */
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .chart {
+            width: 50%;
+            text-align: center;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .chart img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        
+        }
+        /* Biểu đồ MA - căn giữa và bo tròn */
+        .ma-chart-container {
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .ma-chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .disclaimer {
+            font-size: 1em;
+            color: #0e353f;
+            border-top: 1px solid #def8f7;
+            padding-top: 20px;
+            margin-top: 50px; /* Thêm khoảng cách từ nội dung chính */
+            width: 100%; /* Chiếm toàn bộ chiều rộng màn hình */
+            text-align: left; /* Căn trái nội dung */
+        }
+        .disclaimer h3 {
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        .disclaimer p {
+            margin: 10px 0;
+            font-size: 1em; /* Đảm bảo chữ dễ đọc */
+        }
+        .contact-info {
+            margin-top: 20px;
+            font-size: 1em;
+        }
+        .contact-info p {
+            margin: 5px 0;
+        }      
+
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container header">
+        <div class="title">BÁO CÁO DOANH NGHIỆP</div>
+        <div class="subtitle">{{ company_code if company_code else "Không có dữ liệu" }} - {{ company_name if company_name else "Không có thông tin công ty" }}</div>
+        <p><strong>Ngành:</strong> {{ industry_full_description if industry_full_description else "Không có thông tin ngành" }}</p>
+        <p><strong>Ngày báo cáo:</strong> {{ report_date if report_date else "Chưa có ngày báo cáo" }}</p>
+    </div>
+
+        <div class="section-title">1. TỔNG QUAN THỊ TRƯỜNG</div>
+
+        {% if vnindex_summary or market_overview %}
+            {% if vnindex_summary %}
+                <p>{{ vnindex_summary | safe }}</p> <!-- Hiển thị thông tin VNINDEX -->
+            {% endif %}
+        {% if vnindex_chart %}
+          <div class="center">
+               <h3>VNINDEX</h3>
+               <img src="data:image/png;base64,{{ vnindex_chart }}" alt="Biểu đồ vnindex" style="max-width:100%; height:auto;"> <!-- Hiển thị biểu đồ VNINDEX -->
+          </div>
+        {% else %}
+          <p>Không có biểu đồ giao dịch.</p>
+        {% endif %}
+
+        {% if market_cap_chart %}
+          <div class="center">
+               <h3>Vốn hóa thị trường</h3>
+               <img src="data:image/png;base64,{{ market_cap_chart }}" alt="market_cap_chart" style="max-width:100%; height:auto;"> <!-- Hiển thị biểu đồ VNINDEX -->
+          </div>
+        {% else %}
+          <p>Không có biểu đồ giao dịch.</p>
+        {% endif %}
+        {% if value_trends %}
+          <div class="center">
+            <h3>Diễn biến giá trị cổ phiếu của 5 ngành có vốn hóa lớn nhất</h3>
+            <img src="data:image/png;base64,{{ value_trends }}" alt="value_trends" style="max-width:100%; height:auto;"> <!-- Hiển thị biểu đồ VNINDEX -->
+          </div>
+        {% else %}
+          <p>Không có biểu đồ giao dịch.</p>
+        {% endif %}
+    
+
+            {% if market_overview %}
+                <p>{{ market_overview | safe }}</p> <!-- Hiển thị thông tin thị trường chung -->
+            {% endif %}
+        {% else %}
+            <p>Không có dữ liệu thị trường.</p>
+        {% endif %}
+       <!-- Biểu Đồ MA (Moving Averages) -->
+             <div class="section-title">Các đường Moving Average và Trend template</div>
+                <div style="overflow-x:auto; text-align: center;">
+                  <img src="data:image/png;base64,{{ ma_chart }}" 
+                       alt="Chart" 
+                       style="width:1400px; max-width:100%; height:auto; display:block; margin:auto;">
+            </div>
+                <div class="section-title">Tổng GTGD theo ngành và NĐT cá nhân, tổ chức trong nước và nước ngoài</div>
+                <div style="overflow-x:auto; text-align: center;">
+                   <img src="data:image/png;base64,{{ combined_plot }}" 
+                        alt="Chart" 
+                        style="width:1400px; max-width:100%; height:auto; display:block; margin:auto;">
+             </div>
+
+        <div class="section-title">Thống kê dòng tiền</div>
+        {% if base64_khop %}
+            <div class="center">
+                <h3>KHỚP LỆNH</h3>
+                <img src="data:image/png;base64,{{ base64_khop }}" alt="Khớp lệnh Chart" style="max-width:100%; height:auto;">
+            </div>
+        {% else %}
+            <p>Không có biểu đồ giao dịch.</p>
+        {% endif %}
+        {% if base64_thoa_thuan %}
+            <div class="center">
+                <h3>THỎA THUẬN</h3>
+                <img src="data:image/png;base64,{{ base64_thoa_thuan }}" alt="Thỏa Thuận Chart" style="max-width:100%; height:auto;">
+            </div>
+        {% else %}
+            <p>Không có biểu đồ giao dịch.</p>
+       {% endif %}
+           
+    
+        <div class="section-title">2. TỔNG QUAN DOANH NGHIỆP</div>
+            <div class="center">
+                <h2>Hồ sơ Doanh nghiệp</h2>
+                <p>{{ company_profile if company_profile else "Không có mô tả doanh nghiệp" }}</p>
+            </div>
+        <div class="center">
+                <h2>Vị thế Doanh nghiệp</h2>
+                {% if company_position %}
+                    {{ company_position | safe }}
+                {% else %}
+                    <p>Không có vị thế doanh nghiệp.</p>
+                {% endif %}
+            </div>
+                
+                <div class="section-title">Tóm tắt doanh nghiệp</div>
+                <p><strong>Dữ liệu tại:</strong> {{ report_date if report_date else "Chưa có ngày báo cáo" }}</p>
+                {% if stock_data is not none %}
+                    <table>  
+                        <tr><th>Tên công ty (ngắn)</th><td>{{ stock_data.short_name if stock_data.short_name else "N/A" }}</td></tr>              
+                        <tr><th>Mã chứng khoán</th><td>{{ stock_data.symbol if stock_data.symbol else "N/A" }}</td></tr>
+                        <tr><th>Sàn</th><td>{{ stock_data.exchange if stock_data.exchange else "N/A" }}</td></tr>
+                        <tr><th>Website</th><td>{{ stock_data.website if stock_data.website else "N/A" }}</td></tr>
+                        <tr><th>SLCP lưu hành (triệu CP)</th><td>{{ stock_data.outstanding_share if stock_data.outstanding_share else "N/A" }}</td></tr>
+                        <tr><th>Số lượng cổ đông</th><td>{{ stock_data.no_shareholders if stock_data.no_shareholders else "N/A" }}</td></tr>
+                        <tr><th>Sở hữu nước ngoài (%)</th><td>{{ stock_data.foreign_percent if stock_data.foreign_percent else "N/A" }}</td></tr>
+                        <tr><th>Stock rating</th><td>{{ stock_data.stock_rating if stock_data.stock_rating else "N/A" }}</td></tr>
+                    </table>
+                {% else %}
+                    <p>Không có thông tin cổ phiếu.</p>
+                {% endif %}
+    
+        <div class="section-title">3. CHIẾN LƯỢC KINH DOANH</div>
+        {% if business_strategy %}
+            {{ business_strategy | safe }}
+        {% else %}
+           <p>Không có thông tin chiến lược.</p>
+        {% endif %}
+
+        <div class="section-title">4. THÔNG TIN CỔ PHIẾU</div>
+        <div class="section-title">Bảng Dữ Liệu Giá</div>
+        <p><strong>Dữ liệu tại:</strong> {{ report_date if report_date else "Chưa có ngày báo cáo" }}</p>
+        {% if stock_price is not none %}
+            <table>
+                <tr><th>Mã CK</th><td>{{ stock_price.Code if stock_price.Code else "N/A" }}</td></tr>
+                <tr><th>Giá (VND)</th><td>{{ stock_price.Value if stock_price.Value else "N/A" }}</td></tr>
+                <tr><th>Giá hôm trước (VND)</th><td>{{ stock_price.Prev_Value if stock_price.Prev_Value else "N/A" }}</td></tr>
+                <tr><th>Thay đổi giá hôm nay (%)</th>
+                    <td>{{ stock_price.Formatted_Change | safe if stock_price.Formatted_Change else "N/A" }}</td>
+                </tr>
+                <tr><th>Cao nhất 52W</th><td>{{ stock_price.H52W if stock_price.H52W else "N/A" }}</td></tr>
+                <tr><th>Thấp nhất 52W</th><td>{{ stock_price.L52W if stock_price.L52W else "N/A" }}</td></tr>
+                <tr><th>KLGD hôm nay(Nghìn CP)</th><td>{{ stock_price.Volume_Today if stock_price.Volume_Today else "N/A" }}</td></tr>
+                <tr><th>Vốn hóa</th><td>{{ stock_price.MarketCap if stock_price.MarketCap else "N/A" }}</td></tr>
+            </table>
+        {% else %}
+            <p>Không có thông tin cổ phiếu.</p>
+        {% endif %}
+       
+        {% if stock_over %}
+        <div class="financial-analysis">
+         <h3>Phân Tích Diễn biến giá </h3>
+         <p>{{ stock_over | safe }}</p>
+        </div>
+        {% endif %}
+        
+        <div class="chart-container">
+            {% if price_and_vnindex_chart %}
+                <div class="chart">
+                    <h3>Biến động giá so với VNIndex</h3>
+                    {{ price_and_vnindex_chart | safe }} <!-- Hiển thị biểu đồ biến động giá và VNINDEX -->
+                </div>
+            {% endif %}
+
+            {% if price_and_volume_chart %}
+                <div class="chart">
+                    <h3>Biểu đồ giá và khối lượng giao dịch</h3>
+                    {{ price_and_volume_chart | safe }} <!-- Hiển thị biểu đồ giá và khối lượng giao dịch -->
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="section-title">Biểu Đồ Giao Dịch Nhà Đầu Tư Nước Ngoài</div>
+        {% if foreign_trading_chart %}
+            <div class="center">
+                <img src="data:image/png;base64,{{ foreign_trading_chart }}" alt="Biểu đồ giao dịch" style="max-width:100%; height:auto;">
+            </div>
+        {% else %}
+            <p>Không có biểu đồ giao dịch.</p>
+       {% endif %}
+
+       <div class="section-title">5. PHÂN TÍCH TÀI CHÍNH CƠ BẢN </div>
+
+       {% if financial_indicators or balance_sheet or income_statement %}
+          <div class="financial-table">
+             {% if financial_indicators %}
+                <h3>Chỉ số khả năng sinh lợi</h3>
+                {{ financial_indicators | safe }}
+                {% if comparison_chart %}
+                    <div class="chart">
+                        <h4>Biểu đồ chỉ số tài chính</h4>
+                        <img src="data:image/png;base64,{{ comparison_chart }}" alt="Chỉ số tài chính biểu đồ">
+                    </div>
+                {% endif %}
+             {% endif %}
+             {% if financial_indicators %}
+                <h3>Đòn bẩy tài chính</h3>
+                {{ le_indicators | safe }}
+                {% if comparison_chart %}
+                    <div class="chart">
+                        <h4>Biểu đồ chỉ số tài chính</h4>
+                        <img src="data:image/png;base64,{{ comparison_chart }}" alt="Chỉ số tài chính biểu đồ">
+                    </div>
+                {% endif %}
+             {% endif %}
+             {% if financial_indicators %}
+                <h3>Chỉ tiêu thanh khoản</h3>
+                {{ li_indicators | safe }}
+                {% if comparison_chart %}
+                    <div class="chart">
+                        <h4>Biểu đồ chỉ số tài chính</h4>
+                        <img src="data:image/png;base64,{{ comparison_chart }}" alt="Chỉ số tài chính biểu đồ">
+                    </div>
+                {% endif %}
+             {% endif %}
+             {% if dinh_gia_indicators %}
+                <h3>Chỉ tiêu định giá</h3>
+                {{ dinh_gia_indicators | safe }}
+                {% if comparison_chart %}
+                    <div class="chart">
+                        <h4>Biểu đồ chỉ số tài chính</h4>
+                        <img src="data:image/png;base64,{{ comparison_chart }}" alt="Chỉ số tài chính biểu đồ">
+                    </div>
+                {% endif %}
+             {% endif %}
+
+             {% if dinh_gia_indicators %}
+               <div class="financial-analysis">
+                <h3>Phân Tích Tài Chính</h3>
+                <pre>{{ financial_analysis | safe }}</pre>
+               </div>
+                {% if comparison_chart %}
+                    <div class="chart">
+                        <h4>Biểu đồ chỉ số tài chính</h4>
+                        <img src="data:image/png;base64,{{ comparison_chart }}" alt="Chỉ số tài chính biểu đồ">
+                    </div>
+                {% endif %}
+             {% endif %}
+             
+             {% if co_cau_chart %}
+                <div class="center">
+                <h3>Biểu đồ cơ cấu tài sản, nợ, vốn</h3>
+                <img src="data:image/png;base64,{{ co_cau_chart }}" alt="co_cau_chart" style="max-width:100%; height:auto;">
+                </div>
+             {% else %}
+                <p>Không có biểu đồ giao dịch.</p>
+             {% endif %}
+
+             {% if doanh_loi_chart %}
+                <div class="center">
+                <h3>Biểu đồ doanh thu và lợi nhuận</h3>
+                <img src="data:image/png;base64,{{ doanh_loi_chart }}" alt="doanh_loi_chart" style="max-width:100%; height:auto;">
+               </div>
+             {% else %}
+                <p>Không có biểu đồ giao dịch.</p>
+             {% endif %}
+
+    
+
+             {% if balance_sheet %}
+             <div class="financial-table"></div>
+                <h3>Bảng cân đối kế toán</h3>
+                {{ balance_sheet | safe }}
+             {% endif %}
+
+             {% if income_statement %}
+             <div class="financial-table"></div>
+                <h3>Báo cáo kết quả kinh doanh</h3>
+                {{ income_statement | safe }}
+             {% endif %}
+          </div>
+          <div class="section-title">6. SO SÁNH VỚI NGÀNH</div>
+          {% if pie_chart %}
+          <div class="center">
+              <h3>Top 5 công ty có thị phần lớn nhất</h3>
+              <img src="data:image/png;base64,{{ pie_chart }}" alt="Biểu đồ so sánh" style="max-width:100%; height:auto;">
+          </div>
+           {% else %}
+          <p>Không có biểu đồ giao dịch.</p>
+          {% endif %}
+          {% if top_chart %}
+          <div class="center">
+              <h3>Chỉ số sinh lời Top 5 công ty có thị phần lớn nhất</h3>
+              <img src="data:image/png;base64,{{ top_chart }}" alt="Biểu đồ so sánh" style="max-width:100%; height:auto;">
+          </div>
+           {% else %}
+          <p>Không có biểu đồ giao dịch.</p>
+          {% endif %}
+
+        <div class="chart-container">
+            {% if revenue_chart %}
+                <div class="chart">
+                    <h3>Tăng trưởng doanh thu so với ngành</h3>
+                    {{ revenue_chart | safe }} 
+                </div>
+            {% endif %}
+
+            {% if profit_chart %}
+                <div class="chart">
+                    <h3>Tăng trưởng lợi nhuận so với ngành</h3>
+                    {{ profit_chart | safe }} 
+                </div>
+            {% endif %}
+        </div>
+        {% if so_sanh_chart %}
+            <div class="center">
+                <h3>Biểu đồ so sánh các chỉ số tài chính với trung bình ngành</h3>
+                <img src="data:image/png;base64,{{ so_sanh_chart }}" alt="Biểu đồ so sánh" style="max-width:100%; height:auto;">
+            </div>
+             {% else %}
+            <p>Không có biểu đồ giao dịch.</p>
+            {% endif %}
+
+        {% else %}
+          <p>Không có dữ liệu tài chính.</p>
+        {% endif %}
+
+        <div class="disclaimer">
+            <h3>Điều khoản miễn trách</h3>
+                <p>Báo cáo này được trích xuất tự động nhằm mục đích học thuật,dựa trên các thông tin công bố công khai, dữ liệu phát triển và các nguồn khác (Vnstock data) được cho là đáng tin cậy, nhưng chưa được kiểm chứng độc lập bởi. Bản thân tác giả sẽ không đại diện hoặc đảm bảo đối với tính chính xác, đúng đắn và đầy đủ của những thông tin trong báo cáo này. Báo cáo này chỉ nhằm mục đích học thuật, và không phải là một lời đề nghị hoặc mời chào mua hoặc bán bất kỳ mã chứng khoán nào được đề cập ở đây. Các diễn biến trong quá khứ, nếu có, không hàm ý cho những kết quả tương lai. Nhà đầu tư phải có quyết định đầu tư dựa trên những ý kiến độc lập tùy theo tình trạng tài chính hay mục tiêu đầu tư cụ thể. Báo cáo này không được phép sao chép, tái xuất bản, phát hành cũng như tái phân phối cho bất kỳ mục đích nào nếu không có văn bản chấp thuận của tác giả.</p>
+                    
+            <div class="contact-info">
+                <h3>Liên hệ</h3>
+                <p><strong> "DH GROUP" </strong></p>
+                <p>Đại diện: Phạm Thị Duyên Hải </p>
+                <p>Địa chỉ: Phường Linh Xuân, TP. Thủ Đức, TP. Hồ Chí Minh, Việt Nam</p>
+                <p>Email: <a href="mailto:haiptd22414c@st.uel.edu.vn">haiptd22414c@st.uel.edu.vn</a></p>
+            </div>
+        </div>
+</body>
+</html>
