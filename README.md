@@ -8,11 +8,48 @@ This is a web application built with Flask (Python) that allows users to generat
 * **Data Aggregation:** Automatically fetches and processes data from multiple sources (historical prices, company information, financial statements).
 * **Comprehensive Analysis:** The report includes:
     * Market Overview (VNINDEX).
+      <img width="849" height="516" alt="image" src="https://github.com/user-attachments/assets/1dcaff85-9a8d-405e-b73c-7a6106c0a226" />
+      <img width="736" height="845" alt="image" src="https://github.com/user-attachments/assets/6e3d5892-5904-4e82-91dd-839b38b80fae" />
+      <img width="631" height="544" alt="image" src="https://github.com/user-attachments/assets/e77a4080-d326-4012-885a-d94ce3fc1e1e" />
+      <img width="672" height="843" alt="image" src="https://github.com/user-attachments/assets/2cf764df-f526-49c7-8efd-c0476d8dc700" />
+      <img width="669" height="520" alt="image" src="https://github.com/user-attachments/assets/8b17fd0a-18f0-478e-87ec-4406409765cb" />
+      <img width="639" height="809" alt="image" src="https://github.com/user-attachments/assets/e7f07e1f-acc8-49e4-9613-6d64001c70ed" />
+      <img width="623" height="518" alt="image" src="https://github.com/user-attachments/assets/6b78bf4e-0abd-4b8c-8bf3-dcd3ef3372af" />
+      <img width="675" height="677" alt="image" src="https://github.com/user-attachments/assets/c47eb22a-2c01-435c-bcdc-56a414343ec3" />
+
+
+
+
+
     * Company Profile and Business Strategy.
+      <img width="698" height="552" alt="image" src="https://github.com/user-attachments/assets/85cbbe35-a324-4553-b554-d55f0e0279ce" />
+      <img width="664" height="814" alt="image" src="https://github.com/user-attachments/assets/4bf6678f-2b50-40bb-bdcf-41d11fb6445a" />
+      <img width="663" height="760" alt="image" src="https://github.com/user-attachments/assets/918cb3de-ec3c-4f0a-a794-c3fba79191b2" />
     * Price and Volume Chart Analysis.
+      <img width="668" height="704" alt="image" src="https://github.com/user-attachments/assets/b0ac6484-b982-4541-b4dc-bb1c2f315c0b" />
+      <img width="660" height="778" alt="image" src="https://github.com/user-attachments/assets/6b49c621-84ef-4718-a25e-543f86aec806" />
+
+  
     * Key Financial Ratios (Profitability, Liquidity, Valuation, etc.).
+      <img width="660" height="843" alt="image" src="https://github.com/user-attachments/assets/a8aeb797-194c-4bbe-b66b-bcc4ce448ab4" />
+      <img width="661" height="534" alt="image" src="https://github.com/user-attachments/assets/83173117-8265-45ed-8995-bb2fb34a1fe6" />
+      <img width="653" height="446" alt="image" src="https://github.com/user-attachments/assets/9206259f-57dd-4411-b4ae-3fbd414c5c42" />
+      <img width="660" height="525" alt="image" src="https://github.com/user-attachments/assets/c0c20b52-a331-4842-a146-ab9ae673d6a3" />
+
+
     * Income Statement & Balance Sheet extracts.
+      <img width="660" height="750" alt="image" src="https://github.com/user-attachments/assets/c345f50f-591b-401a-bcbc-9ca1b6c84a26" />
+      <img width="668" height="596" alt="image" src="https://github.com/user-attachments/assets/df92585a-e38b-41d7-a8e8-518d9802b007" />
+
+
+
     * Comparison with industry peers.
+      <img width="676" height="709" alt="image" src="https://github.com/user-attachments/assets/75baebe7-f330-4127-a3d6-670f3c4d1749" />
+      <img width="665" height="481" alt="image" src="https://github.com/user-attachments/assets/5e1dd8c5-52d4-475d-822d-59130fa3118a" />
+      ![Uploading image.png…]()
+
+
+
 * **Data Visualization:** Uses Plotly and Matplotlib to create clear and interactive charts.
 * **PDF Export:** Automatically generates a professional PDF report, ready for viewing or sharing, using WeasyPrint.
 
@@ -20,9 +57,8 @@ This is a web application built with Flask (Python) that allows users to generat
 
 The application generates a PDF file similar to the `DHG_2024-12-31 00_00_00 (20).pdf` file included in this repository.
 
-*(It is highly recommended to take a screenshot of the first page of your PDF report and add it here for a better visual preview)*
+<img width="935" height="852" alt="image" src="https://github.com/user-attachments/assets/39b1c3f9-9096-4453-9fd0-98706e655f87" />
 
-`[Screenshot of the DHG.pdf report cover page]`
 
 ## 🛠️ Technology Stack
 
